@@ -1,0 +1,81 @@
+{
+  "run": [{
+    "method": "shell.run",
+    "params": {
+      "message": "npx create-next-app@latest nextjs-blog --use-npm --example 'https://github.com/vercel/next-learn/tree/master/basics/learn-starter'"
+    }
+  }, {
+    "method": "shell.start",
+    "params": {
+      "path": "nextjs-blog"
+    }
+  }, {
+    "method": "shell.enter",
+    "params": {
+      "message": "npm run dev",
+      "on": [{
+        "event": "/started server.+.url:.*(http[:/0-9a-z]+)/",
+        "return": "{{event.matches[0][1]}}"
+      }]
+    }
+  }, {
+    "method": "browser.open",
+    "params": {
+      "uri": "{{input}}",
+      "target": "_blank"
+    }
+  }, {
+    "method": "process.wait",
+    "params": {
+      "sec": 5
+    }
+  }, {
+    "method": "fs.read",
+    "params": {
+      "path": "nextjs-blog/pages/index.js",
+      "encoding": "utf8"
+    }
+  }, {
+    "method": "fs.write",
+    "params": {
+      "path": "nextjs-blog/pages/index.js",
+      "text": "{{input.replace('Next.js!', 'Hell!')}}"
+    }
+  }, {
+    "method": "process.wait",
+    "params": {
+      "sec": 1
+    }
+  }, {
+    "method": "fs.read",
+    "params": {
+      "path": "nextjs-blog/pages/index.js",
+      "encoding": "utf8"
+    }
+  }, {
+    "method": "fs.write",
+    "params": {
+      "path": "nextjs-blog/pages/index.js",
+      "text": "{{input.replace('Hell!', 'Heaven!')}}"
+    }
+  }, {
+    "method": "process.wait",
+    "params": {
+      "sec": 1
+    }
+  }, {
+    "method": "fs.read",
+    "params": {
+      "path": "nextjs-blog/pages/index.js",
+      "encoding": "utf8"
+    }
+  }, {
+    "method": "fs.write",
+    "params": {
+      "path": "nextjs-blog/pages/index.js",
+      "text": "{{input.replace('Heaven!', 'Pinokio!')}}"
+    }
+  }, {
+    "method": "process.wait"
+  }]
+}
